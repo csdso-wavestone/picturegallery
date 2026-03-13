@@ -15,7 +15,10 @@ else{
     if (isset ($_POST['pictures_name'])){
         $pictures_name = $_POST['pictures_name'];
         
-        $sql2 = "DELETE FROM pictures WHERE pictures_name = '{$pictures_name}'";
+
+        $sql2 = $connection->prepare("DELETE FROM pictures WHERE pictures_name = ?");
+        $sql2->bind_param("s", $pictures_name);
+        $sql2->execute();
         if (mysqli_query ($connection, $sql2)){
             $path = "uploads/" . $pictures_name;
             if (unlink ($path)){
